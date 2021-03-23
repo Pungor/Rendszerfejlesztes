@@ -6,33 +6,25 @@ using namespace std;
 int main()
 {
     WSADATA WSAData;
-
-    SOCKET serverSock, clientSock;
-
-    SOCKADDR_IN serverAddr, clientAddr;
+    SOCKET serverSock;
+    SOCKADDR_IN addr;
 
     WSAStartup(MAKEWORD(2,0), &WSAData);
     serverSock = socket(AF_INET, SOCK_STREAM, 0);
 
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(5555);
+    //addr.sin_addr.s_addr = inet_addr("192.168.0.8"); // replace the ip with your futur server ip address. If server AND client are running on the same computer, you can use the local ip 127.0.0.1
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(5555);
 
-    bind(serverSock, (SOCKADDR *)&serverAddr, sizeof(serverAddr));
-    listen(serverSock, 0);
+    connect(serverSock, (SOCKADDR *)&addr, sizeof(addr));
+    cout << "Connected to server!" << endl;
 
-    cout << "Listening for incoming connections..." << endl;
+    char buffer[1024]={'h', 'e', 'l', 'l', 'o', '.'};
+    send(serverSock, buffer, sizeof(buffer), 0);
+    cout << "Message sent!" << endl;
 
-    char buffer[1024];
-    int clientAddrSize = sizeof(clientAddr);
-    if((clientSock = accept(serverSock, (SOCKADDR *)&clientAddr, &clientAddrSize)) != INVALID_SOCKET)
-    {
-        cout << "Client connected!" << endl;
-        recv(clientSock, buffer, sizeof(buffer), 0);
-        cout << "Client says: " << buffer << endl;
-        memset(buffer, 0, sizeof(buffer));
-
-        closesocket(clientSock);
-        cout << "Client disconnected." << endl;
-    }
+    closesocket(serverSock);
+    WSACleanup();
+    cout << "Socket closed." << endl << endl;
 }
