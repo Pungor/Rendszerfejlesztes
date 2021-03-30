@@ -133,13 +133,13 @@ namespace FoodOrderApp
             // 
             this.ChooseTheTitle.FormattingEnabled = true;
             this.ChooseTheTitle.Items.AddRange(new object[] {
-            "vendeg",
-            "futar",
+            "user",
+            "courier",
             "admin"});
             this.ChooseTheTitle.Location = new System.Drawing.Point(212, 155);
             this.ChooseTheTitle.Name = "ChooseTheTitle";
             this.ChooseTheTitle.Size = new System.Drawing.Size(247, 21);
-            this.ChooseTheTitle.TabIndex = 9;
+            this.ChooseTheTitle.TabIndex = 0;
             // 
             // label4
             // 
@@ -154,7 +154,7 @@ namespace FoodOrderApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(468, 250);
+            this.ClientSize = new System.Drawing.Size(497, 250);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.ChooseTheTitle);
             this.Controls.Add(this.pictureBox1);
@@ -168,6 +168,7 @@ namespace FoodOrderApp
             this.Controls.Add(this.label1);
             this.Name = "Login";
             this.Text = "Login";
+            this.Load += new System.EventHandler(this.Login_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

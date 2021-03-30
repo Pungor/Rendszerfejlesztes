@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SQLite;
 
@@ -13,22 +7,38 @@ namespace FoodOrderApp
 {
     public partial class Login : Form
     {
+        // SQLiteConnection con = new SQLiteConnection("data source=FOA_database.db");
         public Login()
         {
-            InitializeComponent();
+         InitializeComponent();
+         //   this.Width = 530;
+         // megjelenit();
         }
 
-  
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void Login_Load(object sender, EventArgs e)
         {
-
+            ChooseTheTitle.SelectedIndex = 0;
         }
+
+        /*
+         private void megjelenit()
+        {
+            con.Open();
+            SQLiteCommand cmd = new SQLiteCommand("select * from tabla", con);
+            SQLiteDataAdapter sda = new SQLiteDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            dataGridView1.DataSource = dt;
+            con.Close();
+        }
+        */
+
+
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            database db = new database();
-            SQLiteCommand cmd = new SQLiteCommand("Select * from Users where name='" + textUser.Text + "' and password='" + textPW.Text + "'", db.GetConnection());
+            DB db = new DB();
+            SQLiteCommand cmd = new SQLiteCommand("Select * from Users where name='"+textUser.Text+"' and password='"+textPW.Text+"'",db.GetConnection());
             SQLiteDataAdapter sda = new SQLiteDataAdapter(cmd);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -37,26 +47,32 @@ namespace FoodOrderApp
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    if (dt.Rows[i]["felhasznalo"].ToString() == cmbitemvolue)
-                    {
-                        MessageBox.Show("Beléptél " + dt.Rows[i]["felhasznalo"] + "-ként!");
-                        if (ChooseTheTitle.SelectedIndex == 0)
+                    if (dt.Rows[i]["permission"].ToString() == cmbitemvolue)
                         {
-                            Users f2 = new Users();
-                            this.Hide();
-                            f2.Show();
-                        }
-                        else
-                        {
-                            Courier f3 = new Courier();
-                            this.Hide();
-                            f3.Show();
-                        }
+                            MessageBox.Show("Beléptél " + dt.Rows[i]["permission"] + "-ként!");
+                            if (ChooseTheTitle.SelectedIndex == 0)
+                                {
+                                    Users user = new Users();
+                                    this.Hide();
+                                    user.Show();
+                                }
+                            if (ChooseTheTitle.SelectedIndex == 1)
+                                { 
+                                    Courier co = new Courier();
+                                    this.Hide();
+                                    co.Show();
+                                }
+                            if (ChooseTheTitle.SelectedIndex == 2)
+                                {
+                                    Admin ad = new Admin();
+                                    this.Hide();
+                                    ad.Show();
+                                }
                     }
                     else
-                    {
-                        MessageBox.Show("Rossz szerepkört választottál");
-                    }
+                        {
+                            MessageBox.Show("Rossz szerepkört választottál");
+                        }
                 }
             }
 
@@ -81,5 +97,7 @@ namespace FoodOrderApp
             this.Hide();
             f4.Show();
         }
+
+        
     }
 }
